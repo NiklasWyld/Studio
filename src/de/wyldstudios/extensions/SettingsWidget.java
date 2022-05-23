@@ -48,6 +48,7 @@ public class SettingsWidget extends JDialog {
         save.setBounds(380, 300, 100, 40);
 
         icon.setText(Main.img.getDescription());
+        company.setText(Main.settings.company);
 
         save_settings(save, icon, company);
         getImage(select_icon, icon);

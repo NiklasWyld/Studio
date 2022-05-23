@@ -49,7 +49,7 @@ public class EreignisReader extends JFrame {
                 }
 
                 User user = EntryReader.loadEntryPublic(id.getText());
-                File directory = new File("ereignisse\\user_" + id.getText());
+                File directory = new File("./ereignisse/user_" + id.getText());
                 getuser.setVisible(false);
                 components(user, frame, directory);
                 frame.repaint();
@@ -126,7 +126,7 @@ public class EreignisReader extends JFrame {
     }
 
     public Ereignis readEreignis(String filename, String userid) {
-        try (FileInputStream fis = new FileInputStream("ereignisse\\user_" + userid + "\\" + filename);
+        try (FileInputStream fis = new FileInputStream("./ereignisse/user_" + userid + "/" + filename);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             Ereignis ereignis = (Ereignis) ois.readObject();

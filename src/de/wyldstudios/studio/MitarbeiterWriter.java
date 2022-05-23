@@ -10,12 +10,12 @@ import java.nio.file.Path;
 
 public class MitarbeiterWriter {
     public void writeMitarbeiter(Mitarbeiter mitarbeiter) {
-        File f = new File(".\\mitarbeiter");
+        File f = new File("./mitarbeiter");
         if (!f.exists()) {
-            new File(".\\mitarbeiter").mkdir();
+            new File("./mitarbeiter").mkdir();
         }
 
-        try (FileOutputStream fos = new FileOutputStream("mitarbeiter\\mitarbeiter_" + mitarbeiter.username + ".wsmf");
+        try (FileOutputStream fos = new FileOutputStream("./mitarbeiter/mitarbeiter_" + mitarbeiter.username + ".wsmf");
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             // Write data to file

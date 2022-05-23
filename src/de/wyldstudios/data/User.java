@@ -18,4 +18,8 @@ public class User implements Serializable {
         this.gender = gender;
         this.information = information;
     }
+
+    public String toString() {
+        return this.name + " - " + this.id;
+    }
 }

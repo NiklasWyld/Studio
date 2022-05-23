@@ -21,7 +21,7 @@ public class Main {
         settings = loadSettings();
         setIcon();
         loginPanel.setTitle(settings.company + " Studio");
-        File directory = new File(".\\users");
+        File directory = new File("./users");
         if(!directory.exists()) {
             directory.mkdir();
         }
@@ -35,7 +35,7 @@ public class Main {
     }
 
     public static Settings loadSettings() {
-        try (FileInputStream fis = new FileInputStream("settings.wssf");
+        try (FileInputStream fis = new FileInputStream("./settings.wssf");
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             Settings s = (Settings) ois.readObject();
@@ -46,11 +46,11 @@ public class Main {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        return new Settings(new ImageIcon("maus.jpg"), "Wyld-Studios");
+        return new Settings(new ImageIcon("./maus.jpg"), "Wyld-Studios");
     }
 
     public static void writeSettings(Settings settings) {
-        try (FileOutputStream fos = new FileOutputStream("settings.wssf");
+        try (FileOutputStream fos = new FileOutputStream("./settings.wssf");
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             // Write data to file

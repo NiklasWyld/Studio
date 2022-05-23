@@ -2,6 +2,7 @@ package de.wyldstudios.extensions;
 
 import de.wyldstudios.data.Ereignis;
 import de.wyldstudios.studio.EreignisReader;
+import de.wyldstudios.studio.EreignisWriter;
 import de.wyldstudios.studio.UI;
 
 import javax.swing.*;
@@ -27,12 +28,11 @@ public class ContentWidget extends JDialog {
 
         content_scroll.setViewportView(content);
         content_scroll.setBounds(15, 10, 450, 330);
-        content.setEditable(false);
         ok.setBounds(150, 350, 60, 30);
         delete.setBounds(250, 350, 100, 30);
 
         safeDelete(ereignis, delete, this, userid);
-        safeClose(this, ok);
+        safeSave(this, ok, ereignis, userid, content);
 
         this.add(content_scroll);
         this.add(ok);
@@ -47,7 +47,7 @@ public class ContentWidget extends JDialog {
                         "Bist du sicher, dass du " + ereignis.title + " löschen möchtest?", "Löschen?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    File file = new File("ereignisse\\user_" + userid + "\\" + ereignis.datetime + ".wser");
+                    File file = new File("./ereignisse/" + "user_" + userid + "/" + ereignis.datetime + ".wser");
                     if (!file.delete()) {
                         JOptionPane.showMessageDialog(null, "Es ist ein Fehler bei Löschen von " + ereignis.title + " aufgetreten", "Fehler", JOptionPane.ERROR_MESSAGE);
                     }
@@ -60,10 +60,11 @@ public class ContentWidget extends JDialog {
         });
     }
 
-    private void safeClose(JDialog d, JButton ok) {
+    private void safeSave(JDialog d, JButton ok, Ereignis ereignis, String userid, JTextArea field) {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                EreignisWriter.writeEventOut(userid, field.getText(), ereignis);
                 d.setVisible(false);
             }
         });

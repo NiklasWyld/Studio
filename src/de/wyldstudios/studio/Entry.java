@@ -96,12 +96,12 @@ public class Entry {
     public static void writeInformations(JFrame frame, String name, String id, String old, String information, String gender) {
         frame.setVisible(false);
 
-        File directory = new File(".\\users");
+        File directory = new File("./users");
         if(!directory.exists()) {
             directory.mkdir();
         }
 
-        try (FileOutputStream fos = new FileOutputStream("users\\user_" + id + ".wsuef");
+        try (FileOutputStream fos = new FileOutputStream("./users/user_" + id + ".wsuef");
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             // Create user

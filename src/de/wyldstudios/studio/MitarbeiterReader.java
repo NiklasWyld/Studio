@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 
 public class MitarbeiterReader {
     public Mitarbeiter getMitarbeiter(String username) {
-        try (FileInputStream fis = new FileInputStream("mitarbeiter\\mitarbeiter_" + username + ".wsmf");
+        try (FileInputStream fis = new FileInputStream("./mitarbeiter/mitarbeiter_" + username + ".wsmf");
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             Mitarbeiter mitarbeiter = (Mitarbeiter) ois.readObject();

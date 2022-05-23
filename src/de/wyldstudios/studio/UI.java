@@ -1,6 +1,8 @@
 package de.wyldstudios.studio;
 
+import de.wyldstudios.data.Ereignis;
 import de.wyldstudios.data.User;
+import de.wyldstudios.extensions.ContentWidget;
 import de.wyldstudios.extensions.SettingsWidget;
 import de.wyldstudios.extensions.Wartezimmer;
 
@@ -8,12 +10,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UI {
     public static JFrame frame = new JFrame();
@@ -237,7 +240,7 @@ public class UI {
                 User user = EntryReader.loadEntryPublic(id);
                 if (delete_user_profe(get_user, user)) {
                     try {
-                        Files.deleteIfExists(Paths.get("users\\user_" + id + ".wsuef"));
+                        Files.deleteIfExists(Paths.get("./users/user_" + id + ".wsuef"));
                         false_info.setText("Erfolgreich gelöscht");
                         false_info.setVisible(true);
                     } catch (IOException ioException) {
@@ -268,19 +271,19 @@ public class UI {
                 JDialog user_list = new JDialog();
                 user_list.setTitle("Kundenliste");
 
-                ArrayList<String> a = new ArrayList<String>();
+                ArrayList<User> a = new ArrayList<>();
 
-                File folder = new File("users");
+                File folder = new File("./users");
                 File[] listOfFiles = folder.listFiles();
 
                 for (int i = 0; i < listOfFiles.length; i++) {
                     if (listOfFiles[i].isFile()) {
                         User p = (User) EntryReader.loadEntryPublicWithoutArgs(listOfFiles[i].getName());
-                        a.add(p.name + " - " + p.id);
+                        a.add(p);
                     }
                 }
 
-                String[] s = new String[a.size()];
+                User[] s = new User[a.size()];
                 a.toArray(s);
 
                 JList list = new JList(s);
@@ -289,11 +292,48 @@ public class UI {
 
                 list_scroll.setBounds(35, 50, 300, 500);
 
+                getContentUserList(list);
+
                 user_list.add(list_scroll);
                 user_list.setResizable(false);
                 user_list.setSize(400, 630);
                 user_list.setLayout(null);
                 user_list.setVisible(true);
+            }
+        });
+    }
+
+    public static void getContentUserList(JList list) {
+        list.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2){
+                    int index = list.locationToIndex(e.getPoint());
+                    ListModel dlm = list.getModel();
+                    User item = (User) dlm.getElementAt(index);;
+                    list.ensureIndexIsVisible(index);
+                    EntryReader.loadEntryDC(item.id);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
     }

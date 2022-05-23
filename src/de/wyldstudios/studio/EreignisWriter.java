@@ -6,10 +6,7 @@ import de.wyldstudios.data.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -83,12 +80,12 @@ public class EreignisWriter extends JFrame {
             return;
         }
 
-        File directory1 = new File(".\\ereignisse");
+        File directory1 = new File("./ereignisse");
         if(!directory1.exists()) {
             directory1.mkdir();
         }
 
-        File directory = new File(".\\ereignisse\\user_" + id.getText());
+        File directory = new File("./ereignisse/user_" + id.getText());
         if(!directory.exists()) {
             directory.mkdir();
         }
@@ -97,7 +94,7 @@ public class EreignisWriter extends JFrame {
         String time = formatter.format(new Date());
         String datetime = LocalDate.now().toString() + "--" + time;
 
-        try (FileOutputStream fos = new FileOutputStream("ereignisse\\user_" + id.getText() + "\\" + datetime + ".wser");
+        try (FileOutputStream fos = new FileOutputStream("./ereignisse/user_" + id.getText() + "/" + datetime + ".wser");
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             // Create user
@@ -106,6 +103,30 @@ public class EreignisWriter extends JFrame {
             // Write data to file
             oos.writeObject(ereignis);
             this.setVisible(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void writeEventOut(String id, String content, Ereignis ereignis) {
+        File directory1 = new File("./ereignisse");
+        if(!directory1.exists()) {
+            directory1.mkdir();
+        }
+
+        File directory = new File("./ereignisse/user_" + id);
+        if(!directory.exists()) {
+            directory.mkdir();
+        }
+
+        String datetime = ereignis.datetime;
+        ereignis.content = content;
+
+        try (FileOutputStream fos = new FileOutputStream("./ereignisse/user_" + id + "/" + datetime + ".wser");
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+            // Write data to file
+            oos.writeObject(ereignis);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
